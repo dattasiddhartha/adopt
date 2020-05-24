@@ -56,7 +56,7 @@ def home():
     # initialize call option
     # e.g. '0x1719D988ab96373aeA0d033c3bef16A8E283B799'
     if request.form.get('submit') == 'CreateCall':
-        calloption_initialization = contract_web3.CreateCall(compiled_contract_path = 'build/contracts/ETHOptionsFactory.json', deployed_contract_address = address, expiry=int(expiry), strike=int(strike))
+        calloption_initialization = contract_web3.CreateCall(compiled_contract_path = 'build/contracts/ETHOptionsFactory.json', deployed_contract_address = "0x1719D988ab96373aeA0d033c3bef16A8E283B799", expiry=int(expiry), strike=int(strike))
     if request.form.get('submit') == 'ExercisePut':
         # ExercisePut
         print()

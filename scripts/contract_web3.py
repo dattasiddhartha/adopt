@@ -10,6 +10,8 @@ from web3 import Web3, HTTPProvider
 
 #TODO: Refactor (Don't repeat yourself)
 
+private_key = '7D89E06EEEA913ECAF2752CF689F89931DEE8FDDF7D6A641A498FCA3C0CA5F1D'
+
 def OptionInTheMoney(strike_price, option_type):
     #get price at expiry
     spot_price = cryptocompare.get_price('BTC',curr='USD')['BTC']['USD']
@@ -21,9 +23,6 @@ def OptionInTheMoney(strike_price, option_type):
         return (strike_price >= spot_price)
     else:
         print("Invalid input provided")
-
-
-
 
 #need to look up option address that corresponds to the desired strike and expiry  
 def SellCall(deployed_contract_address, token_amount): 
@@ -97,8 +96,9 @@ def CreateCall(compiled_contract_path = '../build/contracts/ETHOptionsFactory.js
     web3 = Web3(HTTPProvider("https://ropsten.infura.io/v3/"+WEB3_INFURA_PROJECT_ID))
 
     # Set the default account (so we don't need to set the "from" for every transaction call)
-    web3.eth.defaultAccount = '0xd919F0F0e45C57d520BE7BD155f84506C2Ca0131' # web3.eth.accounts[0]
-
+    #web3.eth.defaultAccount = '0xd919F0F0e45C57d520BE7BD155f84506C2Ca0131' # web3.eth.accounts[0]
+    web3.eth.defaultAccount = '0xf4F808E0509c9942153557A6CFDcE9639C0EC69F'
+    #web3.eth.defaultAccount = web3.eth.accounts[0]
     # Path to the compiled contract JSON file
     #compiled_contract_path = '../build/contracts/ETHOptionsFactory.json'
     
@@ -113,7 +113,28 @@ def CreateCall(compiled_contract_path = '../build/contracts/ETHOptionsFactory.js
     contract = web3.eth.contract(address=deployed_contract_address, abi=contract_abi)
 
     # Call contract function (this is not persisted to the blockchain)
-    message = contract.functions.createCallOptionContract(expiry, strike)#.call()
+    #message = contract.functions.createCallOptionContract(expiry, strike)#.call()
+
+    create_call_txn = contract.functions.createCallOptionContract(expiry, strike).buildTransaction({
+        'chainId': 3,
+        'gas': 70000,
+        'gasPrice': web3.toWei('1', 'gwei'), 
+        'nonce': 90001,
+    })
+
+    signed_create_call_txn = web3.eth.account.sign_transaction(create_call_txn, private_key=private_key)
+
+    message = web3.eth.sendRawTransaction(signed_create_call_txn.rawTransaction)  
+
+#     >>> unicorn_txn = unicorns.functions.transfer(
+# ...     '0xfB6916095ca1df60bB79Ce92cE3Ea74c37c5d359',
+# ...     1,
+# ... ).buildTransaction({
+# ...     'chainId': 1,
+# ...     'gas': 70000,
+# ...     'gasPrice': w3.toWei('1', 'gwei'),
+# ...     'nonce': nonce,
+# ... })
 
     print(message)
 
