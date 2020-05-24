@@ -7,6 +7,67 @@ from web3 import Web3, HTTPProvider
 # Infura email & pw: fokeg20453@gilfun.com
 # WEB3_INFURA_PROJECT_ID=762d1e31835940f992bb35954922c7d4
 
+#TODO: Refactor (Don't repeat yourself)
+
+#need to look up option address that corresponds to the desired strike and expiry  
+def SellCall(deployed_contract_address, token_amount): 
+    token_amount = int(amount*10**18)
+    # should not be doing te same things we did in CreateCall. Needs refactor
+    compiled_contract_path = '../build/contracts/ETHCallOption.json'
+    WEB3_INFURA_PROJECT_ID='21163b9559174609975c67d0188e36db'
+    web3 = Web3(HTTPProvider("https://ropsten.infura.io/v3/"+WEB3_INFURA_PROJECT_ID))
+    web3.eth.defaultAccount = web3.eth.accounts[0]
+    with open(compiled_contract_path) as file:
+        contract_json = json.load(file)  # load contract info as JSON
+        contract_abi = contract_json['abi']  # fetch contract's abi - necessary to call its functions
+
+    contract = web3.eth.contract(address=deployed_contract_address, abi=contract_abi)
+    message = contract.functions.writeOption(token_amount) #should return true if successful
+    return message
+
+def SellPut(deployed_contract_address, token_amount): 
+    token_amount = int(amount*10**18)
+    compiled_contract_path = '../build/contracts/ETHPutOption.json'
+    WEB3_INFURA_PROJECT_ID='21163b9559174609975c67d0188e36db'
+    web3 = Web3(HTTPProvider("https://ropsten.infura.io/v3/"+WEB3_INFURA_PROJECT_ID))
+    web3.eth.defaultAccount = web3.eth.accounts[0]
+    with open(compiled_contract_path) as file:
+        contract_json = json.load(file)  # load contract info as JSON
+        contract_abi = contract_json['abi']  # fetch contract's abi - necessary to call its functions
+
+    contract = web3.eth.contract(address=deployed_contract_address, abi=contract_abi)
+    message = contract.functions.writeOption(token_amount) #should return true if successful
+    return message
+
+
+def ExerciseCall(deployed_contract_address, token_amount):
+    token_amount = int(amount*10**18)
+    compiled_contract_path = '../build/contracts/ETHCallOption.json'
+    WEB3_INFURA_PROJECT_ID='21163b9559174609975c67d0188e36db'
+    web3 = Web3(HTTPProvider("https://ropsten.infura.io/v3/"+WEB3_INFURA_PROJECT_ID))
+    web3.eth.defaultAccount = web3.eth.accounts[0]
+    with open(compiled_contract_path) as file:
+        contract_json = json.load(file)  # load contract info as JSON
+        contract_abi = contract_json['abi']  # fetch contract's abi - necessary to call its functions
+
+    contract = web3.eth.contract(address=deployed_contract_address, abi=contract_abi)
+    message = contract.functions.exerciseOption(token_amount) #should return true if successful
+    return message
+
+def ExercisePut(deployed_contract_address, token_amount):
+    token_amount = int(amount*10**18)
+    compiled_contract_path = '../build/contracts/ETHPutOption.json'
+    WEB3_INFURA_PROJECT_ID='21163b9559174609975c67d0188e36db'
+    web3 = Web3(HTTPProvider("https://ropsten.infura.io/v3/"+WEB3_INFURA_PROJECT_ID))
+    web3.eth.defaultAccount = web3.eth.accounts[0]
+    with open(compiled_contract_path) as file:
+        contract_json = json.load(file)  # load contract info as JSON
+        contract_abi = contract_json['abi']  # fetch contract's abi - necessary to call its functions
+        
+    contract = web3.eth.contract(address=deployed_contract_address, abi=contract_abi)
+    message = contract.functions.exerciseOption(token_amount) #should return true if successful
+    return message
+
 
 
 def CreateCall(compiled_contract_path = '../build/contracts/ETHOptionsFactory.json', deployed_contract_address = '0x9BB465b8080019CfA71b1a2AFA9970E0FbF2452c', expiry=10000000000000, strike=1):
@@ -39,7 +100,6 @@ def CreateCall(compiled_contract_path = '../build/contracts/ETHOptionsFactory.js
     message = contract.functions.createCallOptionContract(expiry, strike)#.call()
 
     print(message)
-
 
     return message
 
