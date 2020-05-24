@@ -1,4 +1,5 @@
 import json
+import cryptocompare
 from web3 import Web3, HTTPProvider
 #from web3.auto.infura.ropsten import web3
 
@@ -8,6 +9,21 @@ from web3 import Web3, HTTPProvider
 # WEB3_INFURA_PROJECT_ID=762d1e31835940f992bb35954922c7d4
 
 #TODO: Refactor (Don't repeat yourself)
+
+def OptionInTheMoney(strike_price, option_type):
+    #get price at expiry
+    spot_price = cryptocompare.get_price('BTC',curr='USD')['BTC']['USD']
+    if option_type == "CALL":
+        #calls are in the money if strike <= spot
+        return (strike_price <= spot_price)
+    elif option_type == "PUT":
+        #puts are in the money if strike >= spot
+        return (strike_price >= spot_price)
+    else:
+        print("Invalid input provided")
+
+
+
 
 #need to look up option address that corresponds to the desired strike and expiry  
 def SellCall(deployed_contract_address, token_amount): 
@@ -63,7 +79,7 @@ def ExercisePut(deployed_contract_address, token_amount):
     with open(compiled_contract_path) as file:
         contract_json = json.load(file)  # load contract info as JSON
         contract_abi = contract_json['abi']  # fetch contract's abi - necessary to call its functions
-        
+
     contract = web3.eth.contract(address=deployed_contract_address, abi=contract_abi)
     message = contract.functions.exerciseOption(token_amount) #should return true if successful
     return message
