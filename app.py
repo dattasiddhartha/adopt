@@ -43,17 +43,47 @@ def login_required(test):
 #----------------------------------------------------------------------------#
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def home():
-
-    
 
     conn_test = contract_web3.RopstenTest()
 
-    calloption_initialization = contract_web3.CreateCall(compiled_contract_path = 'build/contracts/ETHOptionsFactory.json', deployed_contract_address = '0x1719D988ab96373aeA0d033c3bef16A8E283B799', expiry=20000000000000, strike=10000)
+    address = request.form.get('address')
+    expiry = request.form.get('expiry')
+    strike = request.form.get('strike')
+    print(address, expiry, strike)
 
-    return render_template('pages/placeholder.home.html', printed_output=calloption_initialization)
+    # initialize call option
+    # e.g. '0x1719D988ab96373aeA0d033c3bef16A8E283B799'
+    if request.form.get('submit') == 'CreateCall':
+        calloption_initialization = contract_web3.CreateCall(compiled_contract_path = 'build/contracts/ETHOptionsFactory.json', deployed_contract_address = address, expiry=int(expiry), strike=int(strike))
+    if request.form.get('submit') == 'ExercisePut':
+        # ExercisePut
+        print()
+    if request.form.get('submit') == 'ExerciseCall':
+        # ExerciseCall
+        print()
+    if request.form.get('submit') == 'SellPut':
+        # SellPut
+        print()
+    if request.form.get('submit') == 'SellCall':
+        # SellCall
+        print()
+    if request.form.get('submit') == 'OptionInTheMoney':
+        # OptionInTheMoney
+        print()
 
+
+    return render_template('pages/placeholder.home.html', conn = conn_test)
+
+
+def ifNull(filter):
+    if filter == None:
+        return True
+    if filter == "":
+        return True
+    else:
+        return False
 
 @app.route('/about')
 def about():

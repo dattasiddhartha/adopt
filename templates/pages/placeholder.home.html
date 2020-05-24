@@ -7,6 +7,36 @@
 </div>
 <!--<p class="lead">Pin a fixed-height footer to the bottom of the viewport in desktop browsers with this custom HTML and CSS. A fixed navbar has been added within <code>#wrap</code> with <code>padding-top: 60px;</code> on the <code>.container</code>.</p>-->
 
-<label>{{printed_output}}</label>
+<label>Ropsten connection: {{conn}}</label>
+
+<form method="POST">
+    <input type="text" placeholder="contract_address" name="address">
+    <input type="text" placeholder="expiry timestamp" name="expiry">
+    <input type="text" placeholder="strike" name="strike">
+
+    <br />
+    <button type="submit" name="submit" value="CreateCall">CreateCall</button>
+
+    <br />
+    <button type="submit" name="submit" value="ExercisePut">ExercisePut</button>
+
+    <br />
+    <button type="submit" name="submit" value="ExerciseCall">ExerciseCall</button>
+    
+
+    <br />
+    <button type="submit" name="submit" value="SellPut">SellPut</button>
+    
+
+    <br />
+    <button type="submit" name="submit" value="SellCall">SellCall</button>
+    
+
+    <br />
+    <button type="submit" name="submit" value="OptionInTheMoney">OptionInTheMoney</button>
+    
+</form>
+
+
 
 {% endblock %}
