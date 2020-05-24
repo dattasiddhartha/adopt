@@ -1,0 +1,23 @@
+{
+  "name": "zeppelin-solidity",
+  "version": "1.0.0",
+  "description": "Decentralized option contracts",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.0.0",
+    "ethereumjs-wallet": "^0.6.3",
+    "openzeppelin-solidity": "^2.3.0",
+    "solc": "^0.5.10",
+    "truffle-hdwallet-provider": "^1.0.13",
+    "truffle-wallet-provider": "0.0.5"
+  },
+  "devDependencies": {}
+}
