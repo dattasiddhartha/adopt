@@ -2,6 +2,8 @@
 
 A pBTC-DAI call/put options trading platform. 
 
+![][blocks_diagram.jpg]
+
 #### truffle setup
 ```
 truffle compile
@@ -18,3 +20,4 @@ python app.py
 * [ropsten infura project+secret](https://infura.io/dashboard/ethereum/21163b9559174609975c67d0188e36db/settings)
 * [prior repo 2](https://github.com/ysinha1/hackmoney-adopt-dapp)
 * [prior repo 1](https://github.com/ysinha1/hackmoney-adopt)
+* [project explanation](https://www.youtube.com/watch?v=x8K6wXzgv1c&feature=youtu.be)
