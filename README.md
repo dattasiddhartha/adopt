@@ -2,7 +2,7 @@
 
 A pBTC-DAI call/put options trading platform. 
 
-![][blocks_diagram.jpg]
+![blocks_diagram](https://raw.githubusercontent.com/dattasiddhartha/adopt/master/blocks_diagram.jpg)
 
 #### truffle setup
 ```
